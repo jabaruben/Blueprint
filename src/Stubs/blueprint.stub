@@ -1,0 +1,21 @@
+{
+    "crudName":"{{crudName}}",
+    "modelName":"{{modelName}}",
+    "controllerName" : "{{controllerName}}",
+    "tableName" : "{{tableName}}",
+    "routeName" : "{{routeName}}",
+    "isAPI" : {{isAPI}},
+    "namespace" : "",
+    "schema": {
+        "fields": [],
+        "keys":{
+            "primary":"id",
+            "foreign":[],
+            "indexes":[]
+        },
+        "softDeletes":false
+    },
+    "relationships": [],
+    "validations": []
+}
+

@@ -1,0 +1,43 @@
+{
+    "name": "phpjuice/blueprint",
+    "description": "blueprint is a laravel crud scaffolding package",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Elhaouari Mohammed",
+            "email": "em@thesimpledesigners.com",
+            "homepage": "https://github.com/thesimpledesigners"
+        }
+    ],
+    "homepage": "https://github.com/phpjuice/blueprint",
+    "keywords": ["Laravel", "Blueprint", "crud"],
+    "require": {
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPJuice\\Blueprint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPJuice\\Blueprint\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PHPJuice\\Blueprint\\BlueprintServiceProvider"
+            ],
+            "aliases": {
+                "Blueprint": "PHPJuice\\Blueprint\\Facades\\Blueprint"
+            }
+        }
+    }
+}
