@@ -3,8 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
-
+[![StyleCI](https://github.styleci.io/repos/160396575/shield?branch=master)](https://github.styleci.io/repos/160396575)
 Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.
 
 ## Installation
@@ -51,6 +50,6 @@ license. Please see the [license file](license.md) for more information.
 [link-packagist]: https://packagist.org/packages/phpjuice/blueprint
 [link-downloads]: https://packagist.org/packages/phpjuice/blueprint
 [link-travis]: https://travis-ci.org/phpjuice/blueprint
-[link-styleci]: https://styleci.io/repos/12345678
+[link-styleci]: https://styleci.io/repos/160396575
 [link-author]: https://github.com/phpjuice
 [link-contributors]: ../../contributors
