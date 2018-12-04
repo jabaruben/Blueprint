@@ -3,7 +3,6 @@
 namespace PHPJuice\Blueprint\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class BlueprintCommand extends Command
 {
@@ -19,7 +18,6 @@ class BlueprintCommand extends Command
      * @var string
      */
     protected $description = 'Generate a list of cruds';
-
 
     /**
      * Create a new command instance.
@@ -38,6 +36,5 @@ class BlueprintCommand extends Command
      */
     public function handle()
     {
-
     }
 }

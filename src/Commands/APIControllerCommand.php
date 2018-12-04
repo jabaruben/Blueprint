@@ -51,7 +51,7 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\Http\\Controllers\\API\\' . ($this->option('namespace') ? $this->option('namespace') : '');
+        return $rootNamespace.'\\Http\\Controllers\\API\\'.($this->option('namespace') ? $this->option('namespace') : '');
     }
 
     /**
@@ -65,6 +65,7 @@ class APIControllerCommand extends GeneratorCommand
         if ($this->option('force')) {
             return false;
         }
+
         return parent::alreadyExists($rawName);
     }
 
@@ -82,6 +83,7 @@ class APIControllerCommand extends GeneratorCommand
         $modelNameSingular = str_singular(strtolower($modelName));
         $modelNamespace = $this->option('namespace');
         $perPage = intval($this->option('pagination'));
+
         return $this->replaceNamespace($stub, $name)
             ->replaceModelName($stub, $modelName)
             ->replaceModelNameSingular($stub, $modelNameSingular)
@@ -102,6 +104,7 @@ class APIControllerCommand extends GeneratorCommand
     protected function replaceModelName(&$stub, $modelName)
     {
         $stub = str_replace('{{modelName}}', $modelName, $stub);
+
         return $this;
     }
 
@@ -116,9 +119,9 @@ class APIControllerCommand extends GeneratorCommand
     protected function replaceModelNameSingular(&$stub, $modelNameSingular)
     {
         $stub = str_replace('{{modelNameSingular}}', $modelNameSingular, $stub);
+
         return $this;
     }
-
 
     /**
      * Replace the modelNamespace for the given stub.
@@ -136,7 +139,7 @@ class APIControllerCommand extends GeneratorCommand
     }
 
     /**
-     * Replace the modelNamespace segments for the given stub
+     * Replace the modelNamespace segments for the given stub.
      *
      * @param $stub
      * @param $modelNamespace
@@ -147,7 +150,7 @@ class APIControllerCommand extends GeneratorCommand
     {
         $modelSegments = explode('\\', $modelNamespace);
         foreach ($modelSegments as $key => $segment) {
-            $stub = str_replace('{{modelNamespace[' . $key . ']}}', $segment, $stub);
+            $stub = str_replace('{{modelNamespace['.$key.']}}', $segment, $stub);
         }
 
         $stub = preg_replace('{{modelNamespace\[\d*\]}}', '', $stub);
@@ -156,7 +159,7 @@ class APIControllerCommand extends GeneratorCommand
     }
 
     /**
-     * Replace the pagination placeholder for the given stub
+     * Replace the pagination placeholder for the given stub.
      *
      * @param $stub
      * @param $perPage

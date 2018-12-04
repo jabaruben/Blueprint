@@ -53,21 +53,21 @@ class BlueprintCreateCommand extends Command
         $stub = __DIR__.'/../Stubs/blueprint.stub';
 
         // make blueprints directory
-        if (!File::isDirectory($this->getBlueprintsDirectory())) {
+        if (! File::isDirectory($this->getBlueprintsDirectory())) {
             File::makeDirectory($this->getBlueprintsDirectory(), 0755, true);
         }
 
         // get blueprint path
         $path = $this->getBlueprintPath($fileName);
         // replace placholders
-        $content = str_replace('{{crudName}}', $crudName, File::get($stub) );
-        $content = str_replace('{{modelName}}', $modelName, $content  );
-        $content = str_replace('{{controllerName}}', $controllerName, $content  );
-        $content = str_replace('{{tableName}}', $tableName, $content  );
-        $content = str_replace('{{routeName}}', $routeName, $content  );
-        $content = str_replace('{{isAPI}}', $isAPI, $content );
+        $content = str_replace('{{crudName}}', $crudName, File::get($stub));
+        $content = str_replace('{{modelName}}', $modelName, $content);
+        $content = str_replace('{{controllerName}}', $controllerName, $content);
+        $content = str_replace('{{tableName}}', $tableName, $content);
+        $content = str_replace('{{routeName}}', $routeName, $content);
+        $content = str_replace('{{isAPI}}', $isAPI, $content);
 
-        if ( File::put($path, $content ) ) {
+        if (File::put($path, $content)) {
             $this->info('blueprint file created successfully under:');
             $this->info($path);
         } else {
@@ -83,8 +83,8 @@ class BlueprintCreateCommand extends Command
      */
     protected function getBlueprintPath($name = null)
     {
-        return $this->getBlueprintsDirectory() . date('Y_m_d_His') .
-            '_create_' . $name . '_crud_blueprint.json';
+        return $this->getBlueprintsDirectory().date('Y_m_d_His').
+            '_create_'.$name.'_crud_blueprint.json';
     }
 
     /**
@@ -95,6 +95,6 @@ class BlueprintCreateCommand extends Command
      */
     protected function getBlueprintsDirectory()
     {
-        return database_path() . "/blueprints/";
+        return database_path().'/blueprints/';
     }
 }
