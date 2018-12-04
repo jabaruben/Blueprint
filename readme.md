@@ -1,7 +1,7 @@
 # Blueprint
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
+[![Latest Stable Version](https://poser.pugx.org/phpjuice/blueprint/v/stable)](https://packagist.org/packages/phpjuice/blueprint)
+[![Total Downloads](https://poser.pugx.org/phpjuice/blueprint/downloads)](https://packagist.org/packages/phpjuice/blueprint)
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI](https://github.styleci.io/repos/160396575/shield?branch=master)](https://github.styleci.io/repos/160396575)
 
