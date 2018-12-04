@@ -1,7 +1,7 @@
 {
     "name": "phpjuice/blueprint",
-    "description": "blueprint is a laravel crud scaffolding package",
-    "license": "license",
+    "description": "Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Elhaouari Mohammed",

@@ -4,6 +4,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI](https://github.styleci.io/repos/160396575/shield?branch=master)](https://github.styleci.io/repos/160396575)
+
 Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.
 
 ## Installation
