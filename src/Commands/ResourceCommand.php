@@ -50,7 +50,7 @@ class ResourceCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\Http\\Resources\\' . ($this->option('namespace') ? $this->option('namespace') : '');
+        return $rootNamespace.'\\Http\\Resources\\'.($this->option('namespace') ? $this->option('namespace') : '');
     }
 
     /**
@@ -63,8 +63,9 @@ class ResourceCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
-        $name = str_replace('\\', DIRECTORY_SEPARATOR , $name);
-        return app_path() . DIRECTORY_SEPARATOR . $name . 'Resource.php';
+        $name = str_replace('\\', DIRECTORY_SEPARATOR, $name);
+
+        return app_path().DIRECTORY_SEPARATOR.$name.'Resource.php';
     }
 
     /**
@@ -78,6 +79,7 @@ class ResourceCommand extends GeneratorCommand
         if ($this->option('force')) {
             return false;
         }
+
         return parent::alreadyExists($rawName);
     }
 
@@ -91,7 +93,8 @@ class ResourceCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        return $this->replaceNamespace($stub, $name )
-                    ->replaceClass($stub, $name. 'Resource');
+
+        return $this->replaceNamespace($stub, $name)
+                    ->replaceClass($stub, $name.'Resource');
     }
 }

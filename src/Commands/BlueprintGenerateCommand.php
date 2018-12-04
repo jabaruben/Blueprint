@@ -38,16 +38,17 @@ class BlueprintGenerateCommand extends Command
      */
     public function handle()
     {
-        if (!$this->option('blueprint')) {
+        if (! $this->option('blueprint')) {
             $this->error('must provide a blueprint file to generate a crud');
             $this->info('run php artisan blueprint:create {name} to generate a file');
+
             return 0;
         }
         try {
             // get and decode json file
             $this->blueprint = json_decode(File::get($this->option('blueprint')));
         } catch (\Exception $e) {
-            $this->error("provided json file is not valide! check for errors");
+            $this->error('provided json file is not valide! check for errors');
         }
 
         // genreate all the scaffolding
@@ -65,87 +66,97 @@ class BlueprintGenerateCommand extends Command
     }
 
     /**
-     * creates a resource
+     * creates a resource.
      * @return $this
      */
-    protected function createResource(){
+    protected function createResource()
+    {
         $args = [
             'name' => $this->blueprint->modelName,
             '--namespace' =>  $this->blueprint->namespace,
-            '--force' => true
+            '--force' => true,
         ];
         $this->call('blueprint:resource', $args);
+
         return $this;
     }
 
     /**
-     * creates a request
+     * creates a request.
      * @return $this
      */
-    protected function createRequest(){
+    protected function createRequest()
+    {
         $args = [
             'name' => $this->blueprint->modelName,
             '--namespace' =>  $this->blueprint->namespace,
-            '--force' => true
+            '--force' => true,
         ];
         $this->call('blueprint:request', $args);
+
         return $this;
     }
 
     /**
-     * creates a migration file
+     * creates a migration file.
      * @return $this
      */
-    protected function createMigration(){
+    protected function createMigration()
+    {
         $this->call('blueprint:migration', [
             'name' => $this->blueprint->tableName,
-            '--schema' =>  json_encode($this->blueprint->schema)
+            '--schema' =>  json_encode($this->blueprint->schema),
         ]);
+
         return $this;
     }
 
     /**
-     * creates a controller
+     * creates a controller.
      * @return $this
      */
-    protected function createController(){
+    protected function createController()
+    {
         $args = [
             'name' =>$this->blueprint->controllerName,
             '--model-name' => $this->blueprint->modelName,
             '--namespace' => $this->blueprint->namespace,
             '--pagination' => 10,
-            '--force' => true
+            '--force' => true,
         ];
-        if ( (bool)$this->blueprint->isAPI ) {
+        if ((bool) $this->blueprint->isAPI) {
             // creates eather an api or default controller
             $this->call('blueprint:controller:api', $args);
+
             return $this;
         }
         //$this->call('blueprint:controller', $args);
         return $this;
-
     }
 
     /**
-     * creates a Model
+     * creates a Model.
      * @return $this
      */
-    protected function createModel(){
+    protected function createModel()
+    {
         $args = [
             'name' => $this->blueprint->model->name,
             '--table' => $this->blueprint->tableName,
             '--namespace' => $this->blueprint->namespace,
-            '--force' => true
+            '--force' => true,
         ];
         $this->call('blueprint:model', $args);
+
         return $this;
     }
 
     /**
-     * creates a route
+     * creates a route.
      * @return $this
      */
-    protected function createRoute(){
+    protected function createRoute()
+    {
         // Updating the Http/routes.php file
         $routeFile = app_path('Http/routes.php');
 
@@ -153,18 +164,18 @@ class BlueprintGenerateCommand extends Command
             $routeFile = base_path('routes/web.php');
         }
 
-        if (file_exists($routeFile) && isset($this->blueprint->routeName) ) {
-
-            $isAdded = File::append($routeFile, "\n" . implode("\n", $this->addAPIRoute()));
+        if (file_exists($routeFile) && isset($this->blueprint->routeName)) {
+            $isAdded = File::append($routeFile, "\n".implode("\n", $this->addAPIRoute()));
 
             if ($isAdded) {
-                $this->info('Crud/Resource route added to ' . $routeFile);
+                $this->info('Crud/Resource route added to '.$routeFile);
             } else {
-                $this->info('Unable to add the route to ' . $routeFile);
+                $this->info('Unable to add the route to '.$routeFile);
             }
         } else {
             $this->info('no route option is provided');
         }
+
         return $this;
     }
 
@@ -175,7 +186,8 @@ class BlueprintGenerateCommand extends Command
      */
     protected function addAPIRoute()
     {
-        $controller = 'API\\'. $this->blueprint->namespace .'\\'. $this->blueprint->controllerName;
-        return ["Route::resource('" . $this->blueprint->routeName . "', '" . $controller . "');"];
+        $controller = 'API\\'.$this->blueprint->namespace.'\\'.$this->blueprint->controllerName;
+
+        return ["Route::resource('".$this->blueprint->routeName."', '".$controller."');"];
     }
 }

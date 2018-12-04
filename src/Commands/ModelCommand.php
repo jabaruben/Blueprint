@@ -40,7 +40,7 @@ class ModelCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/../Stubs/model.stub';
+        return __DIR__.'/../Stubs/model.stub';
     }
 
     /**
@@ -52,7 +52,7 @@ class ModelCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\Models\\' . ($this->option('namespace') ? $this->option('namespace') : '');
+        return $rootNamespace.'\\Models\\'.($this->option('namespace') ? $this->option('namespace') : '');
     }
 
     /**
@@ -72,6 +72,7 @@ class ModelCommand extends GeneratorCommand
             ->replaceTable($stub, $table)
             ->replacePrimaryKey($stub, $primaryKey)
             ->replaceSoftDelete($stub, $softDeletes);
+
         return $ret->replaceClass($stub, $name);
     }
 
@@ -86,6 +87,7 @@ class ModelCommand extends GeneratorCommand
     protected function replaceTable(&$stub, $table)
     {
         $stub = str_replace('{{tableName}}', $table, $stub);
+
         return $this;
     }
 
@@ -100,6 +102,7 @@ class ModelCommand extends GeneratorCommand
     protected function replaceFillable(&$stub, $fillable)
     {
         $stub = str_replace('{{fillable}}', $fillable, $stub);
+
         return $this;
     }
 
@@ -114,6 +117,7 @@ class ModelCommand extends GeneratorCommand
     protected function replaceHidden(&$stub, $hidden)
     {
         $stub = str_replace('{{hidden}}', $hidden, $stub);
+
         return $this;
     }
 
@@ -128,6 +132,7 @@ class ModelCommand extends GeneratorCommand
     protected function replacePrimaryKey(&$stub, $primaryKey)
     {
         $stub = str_replace('{{primaryKey}}', $primaryKey, $stub);
+
         return $this;
     }
 
@@ -148,6 +153,7 @@ class ModelCommand extends GeneratorCommand
             $stub = str_replace('{{softDeletes}}', '', $stub);
             $stub = str_replace('{{useSoftDeletes}}', '', $stub);
         }
+
         return $this;
     }
 }
