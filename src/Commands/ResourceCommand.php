@@ -108,12 +108,13 @@ class ResourceCommand extends GeneratorCommand
      */
     protected function replaceFields(&$stub)
     {
-        $fields = explode(",", $this->option('fields'));
+        $fields = explode(',', $this->option('fields'));
         $fieldsStr = '';
         foreach ($fields as $field) {
             $fieldsStr .= sprintf("\n      '%s' => \$this->%s,", $field, $field);
         }
-        $stub = str_replace('{{fields}}', $fieldsStr , $stub);
+        $stub = str_replace('{{fields}}', $fieldsStr, $stub);
+
         return $this;
     }
 }

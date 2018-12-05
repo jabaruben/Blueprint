@@ -47,14 +47,16 @@ class BlueprintMakeCommand extends Command
     }
 
     /**
-     * return the formated curd name
+     * return the formated curd name.
      */
-    protected function runInFilesMode() {
+    protected function runInFilesMode()
+    {
         // generates blueprints directory if not exists
         $this->generateBlueprintsDir();
         // check if the crud name already exists
         if ($this->alreadyExists()) {
             $this->error('crud already exists, make sure to check your blueprints folder!');
+
             return 0;
         }
         // get the stub
@@ -65,26 +67,26 @@ class BlueprintMakeCommand extends Command
 
     /**
      * Replaces all the placeholders in blueprint stub file.
-     * @param String $stub blueprint stub file
+     * @param string $stub blueprint stub file
      * @return $this
      */
-    protected function replacePlaceholders(&$stub){
+    protected function replacePlaceholders(&$stub)
+    {
         $crudName = $this->getCrudName();
         $crudNamespace = str_plural($crudName);
         $controllerName = str_plural($crudName).'Controller';
-        $isAPI = ($this->option('api'))? "true":"false";
+        $isAPI = ($this->option('api')) ? 'true' : 'false';
         $tableName = str_plural(snake_case($crudName));
         $routeName = str_plural(snake_case($crudName, '-'));
 
         // replace crud placeholders
-        $stub = str_replace('{{crud.name}}', $crudName, $stub );
-        $stub = str_replace('{{crud.namespace}}', $crudNamespace, $stub );
+        $stub = str_replace('{{crud.name}}', $crudName, $stub);
+        $stub = str_replace('{{crud.namespace}}', $crudNamespace, $stub);
         $stub = str_replace('{{crud.isApi}}', $isAPI, $stub);
 
         // replace controller placeholders
         $stub = str_replace('{{controller.name}}', $controllerName, $stub);
         $stub = str_replace('{{controller.namespace}}', $crudNamespace, $stub);
-
 
         // replace model placeholders
         $stub = str_replace('{{model.name}}', $crudName, $stub);
@@ -109,19 +111,25 @@ class BlueprintMakeCommand extends Command
     protected function alreadyExists()
     {
         $crudName = $this->getCrudName();
-        foreach( File::files($this->getBlueprintsDirectory()) as $file ){
+        foreach (File::files($this->getBlueprintsDirectory()) as $file) {
             try {
                 $fileContent = json_decode(\File::get($file));
-                if (is_null($fileContent)) { throw new \Exception( json_last_error() ); }
-                if($fileContent->crudName === $crudName) { return true; }
+                if (is_null($fileContent)) {
+                    throw new \Exception(json_last_error());
+                }
+                if ($fileContent->crudName === $crudName) {
+                    return true;
+                }
             } catch (\Exception $e) {
-                throw new \Exception("not valide json file in your blueprints folder");
+                throw new \Exception('not valide json file in your blueprints folder');
             }
         }
+
         return false;
     }
 
-    protected function runningWithDatabase(){
+    protected function runningWithDatabase()
+    {
         return false;
     }
 
@@ -159,11 +167,12 @@ class BlueprintMakeCommand extends Command
     }
 
     /**
-     * return the formated curd name
-     * @return String curd name
+     * return the formated curd name.
+     * @return string curd name
      */
-    protected function getCrudName(){
-        return  str_singular( preg_replace('/crud$/i', '', $this->argument('name')) );
+    protected function getCrudName()
+    {
+        return  str_singular(preg_replace('/crud$/i', '', $this->argument('name')));
     }
 
     /**
@@ -182,7 +191,7 @@ class BlueprintMakeCommand extends Command
     /**
      * Genreate the blueprint json file.
      *
-     * @param String $stub file contents
+     * @param string $stub file contents
      * @return string
      */
     protected function generateBlueprintFile($stub)
