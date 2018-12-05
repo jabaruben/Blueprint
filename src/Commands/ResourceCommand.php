@@ -95,6 +95,25 @@ class ResourceCommand extends GeneratorCommand
         $stub = $this->files->get($this->getStub());
 
         return $this->replaceNamespace($stub, $name)
+                    ->replaceFields($stub)
                     ->replaceClass($stub, $name.'Resource');
+    }
+
+    /**
+     * Replace the fields for the given stub.
+     *
+     * @param  string  $stub
+     *
+     * @return $this
+     */
+    protected function replaceFields(&$stub)
+    {
+        $fields = explode(",", $this->option('fields'));
+        $fieldsStr = '';
+        foreach ($fields as $field) {
+            $fieldsStr .= sprintf("\n      '%s' => \$this->%s,", $field, $field);
+        }
+        $stub = str_replace('{{fields}}', $fieldsStr , $stub);
+        return $this;
     }
 }

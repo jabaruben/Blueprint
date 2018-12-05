@@ -40,61 +40,29 @@ class BlueprintGenerateCommand extends Command
     {
         if (! $this->option('blueprint')) {
             $this->error('must provide a blueprint file to generate a crud');
-            $this->info('run php artisan blueprint:create {name} to generate a file');
-
+            $this->info('run: `$ php artisan blueprint:make {name}` to generate a file');
             return 0;
         }
         try {
             // get and decode json file
             $this->blueprint = json_decode(File::get($this->option('blueprint')));
+            if (is_null($this->blueprint)) { throw new \Exception( json_last_error() ); }
         } catch (\Exception $e) {
             $this->error('provided json file is not valide! check for errors');
         }
 
         // genreate all the scaffolding
-        $this->createMigration()
-             ->createModel()
-             ->createController()
-             ->createRequest()
-             ->createResource()
-             ->createRoute();
+        $this->createMigration();
+        $this->createModel();
+        $this->createController();
+        $this->createResource();
+        $this->createRequest();
+        $this->createRoute();
 
         // For optimizing the class loader
         if (\App::VERSION() < '5.6') {
             $this->callSilent('optimize');
         }
-    }
-
-    /**
-     * creates a resource.
-     * @return $this
-     */
-    protected function createResource()
-    {
-        $args = [
-            'name' => $this->blueprint->modelName,
-            '--namespace' =>  $this->blueprint->namespace,
-            '--force' => true,
-        ];
-        $this->call('blueprint:resource', $args);
-
-        return $this;
-    }
-
-    /**
-     * creates a request.
-     * @return $this
-     */
-    protected function createRequest()
-    {
-        $args = [
-            'name' => $this->blueprint->modelName,
-            '--namespace' =>  $this->blueprint->namespace,
-            '--force' => true,
-        ];
-        $this->call('blueprint:request', $args);
-
-        return $this;
     }
 
     /**
@@ -104,33 +72,9 @@ class BlueprintGenerateCommand extends Command
     protected function createMigration()
     {
         $this->call('blueprint:migration', [
-            'name' => $this->blueprint->tableName,
-            '--schema' =>  json_encode($this->blueprint->schema),
+            'name' => $this->blueprint->table->name,
+            '--schema' =>  json_encode($this->blueprint->table->schema),
         ]);
-
-        return $this;
-    }
-
-    /**
-     * creates a controller.
-     * @return $this
-     */
-    protected function createController()
-    {
-        $args = [
-            'name' =>$this->blueprint->controllerName,
-            '--model-name' => $this->blueprint->modelName,
-            '--namespace' => $this->blueprint->namespace,
-            '--pagination' => 10,
-            '--force' => true,
-        ];
-        if ((bool) $this->blueprint->isAPI) {
-            // creates eather an api or default controller
-            $this->call('blueprint:controller:api', $args);
-
-            return $this;
-        }
-        //$this->call('blueprint:controller', $args);
         return $this;
     }
 
@@ -142,12 +86,62 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--table' => $this->blueprint->tableName,
-            '--namespace' => $this->blueprint->namespace,
+            '--blueprint' => json_encode($this->blueprint),
             '--force' => true,
         ];
         $this->call('blueprint:model', $args);
+        return $this;
+    }
 
+    /**
+     * creates a Controller.
+     * @return $this
+     */
+    protected function createController()
+    {
+        $args = [
+            'name' =>$this->blueprint->controller->name,
+            '--blueprint' => json_encode($this->blueprint),
+            '--force' => true,
+        ];
+        if ((bool) $this->blueprint->crud->isApi) {
+            // creates eather an api or default controller
+            $this->call('blueprint:controller:api', $args);
+            return $this;
+        }
+        //$this->call('blueprint:controller', $args);
+        return $this;
+    }
+
+    /**
+     * creates a resource.
+     * @return $this
+     */
+    protected function createResource()
+    {
+        $args = [
+            'name' => $this->blueprint->model->name,
+            '--namespace' => $this->blueprint->crud->namespace,
+            '--fields' => $this->blueprint->model->fillable,
+            '--force' => true,
+        ];
+        $this->call('blueprint:resource', $args);
+        return $this;
+    }
+
+    /**
+     * creates a request.
+     * @return $this
+     */
+    protected function createRequest()
+    {
+        $args = [
+            'name' => $this->blueprint->model->name,
+            '--namespace' =>  $this->blueprint->crud->namespace,
+            '--validations' =>  json_encode($this->blueprint->controller->validations),
+            '--force' => true,
+        ];
+        $this->call('blueprint:request', $args);
         return $this;
     }
 
@@ -164,7 +158,7 @@ class BlueprintGenerateCommand extends Command
             $routeFile = base_path('routes/web.php');
         }
 
-        if (file_exists($routeFile) && isset($this->blueprint->routeName)) {
+        if (file_exists($routeFile) && isset($this->blueprint->route->name)) {
             $isAdded = File::append($routeFile, "\n".implode("\n", $this->addAPIRoute()));
 
             if ($isAdded) {
@@ -186,8 +180,8 @@ class BlueprintGenerateCommand extends Command
      */
     protected function addAPIRoute()
     {
-        $controller = 'API\\'.$this->blueprint->namespace.'\\'.$this->blueprint->controllerName;
-
-        return ["Route::resource('".$this->blueprint->routeName."', '".$controller."');"];
+        $routeName = $this->blueprint->route->name;
+        $controller = 'API\\'.$this->blueprint->controller->namespace.'\\'.$this->blueprint->controller->name;
+        return ["Route::resource('".$this->blueprint->route->url."', '".$controller."')->name('{$routeName}');"];
     }
 }

@@ -13,7 +13,7 @@ class MigrationCommand extends GeneratorCommand
      */
     protected $signature = 'blueprint:migration
                         {name : The name of migration table.}
-                        {--schema= : schema structure json input.}';
+                        {--schema= : table structure json input.}';
 
     /**
      * The console command description.
@@ -107,11 +107,11 @@ class MigrationCommand extends GeneratorCommand
         // genreate table name
         $className = $this->generateClassName($tableName);
 
-        // primary key
-        $primaryKey = isset($schema['keys']['primary']) ? isset($schema['keys']['primary']) : 'id';
-
         // get schema
         $schema = json_decode($this->option('schema'), true);
+
+        // primary key
+        $primaryKey = isset($schema['keys']['primary']) ? $schema['keys']['primary']: 'id';
 
         // build schema ouput
         $schemaFields = $this->buildFieldsSegement($schema);
