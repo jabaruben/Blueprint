@@ -79,13 +79,13 @@ class BlueprintServiceProvider extends ServiceProvider
         // Registering package commands.
         $this->commands([
             Commands\BlueprintCommand::class,
+            Commands\BlueprintMakeCommand::class,
             Commands\BlueprintGenerateCommand::class,
-            Commands\BlueprintCreateCommand::class,
-            Commands\APIControllerCommand::class,
+            Commands\ModelCommand::class,
             Commands\RequestCommand::class,
             Commands\ResourceCommand::class,
             Commands\MigrationCommand::class,
-            Commands\ModelCommand::class,
+            Commands\APIControllerCommand::class,
         ]);
     }
 }

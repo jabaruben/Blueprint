@@ -3,9 +3,12 @@
 namespace PHPJuice\Blueprint\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use PHPJuice\Blueprint\Traits\HasJsonInput;
 
 class APIControllerCommand extends GeneratorCommand
 {
+    use HasJsonInput;
+
     /**
      * The name and signature of the console command.
      *
@@ -13,9 +16,7 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected $signature = 'blueprint:controller:api
                             {name : The name of the controller.}
-                            {--model-name= : The name of the Model.}
-                            {--namespace= : namespace.}
-                            {--pagination=25 : The amount of models per page for index pages.}
+                            {--blueprint= : blueprint from a json file.}
                             {--force : Overwrite already existing controller.}';
 
     /**
@@ -31,6 +32,13 @@ class APIControllerCommand extends GeneratorCommand
      * @var string
      */
     protected $type = 'Controller';
+
+    /**
+     * The blueprint of class being generated.
+     *
+     * @var string
+     */
+    protected $blueprint;
 
     /**
      * Get the stub file for the generator.
@@ -51,7 +59,19 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\\Http\\Controllers\\API\\'.($this->option('namespace') ? $this->option('namespace') : '');
+        $this->blueprint = $this->handleJsonInput('blueprint');
+
+        return $rootNamespace.'\\Http\\Controllers\\API\\'.$this->getControllerNamespace();
+    }
+
+    protected function getControllerNamespace()
+    {
+        return isset($this->blueprint->controller->namespace) ? $this->blueprint->controller->namespace : $this->blueprint->crud->namespace;
+    }
+
+    protected function getModelNamespace()
+    {
+        return isset($this->blueprint->model->namespace) ? $this->blueprint->model->namespace : $this->blueprint->crud->namespace;
     }
 
     /**
@@ -79,17 +99,13 @@ class APIControllerCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        $modelName = $this->option('model-name');
-        $modelNameSingular = str_singular(strtolower($modelName));
-        $modelNamespace = $this->option('namespace');
-        $perPage = intval($this->option('pagination'));
 
         return $this->replaceNamespace($stub, $name)
-            ->replaceModelName($stub, $modelName)
-            ->replaceModelNameSingular($stub, $modelNameSingular)
-            ->replaceModelNamespace($stub, $modelNamespace)
-            ->replaceModelNamespaceSegments($stub, $modelNamespace)
-            ->replacePaginationNumber($stub, $perPage)
+            ->replaceModelName($stub)
+            ->replaceModelNameSingular($stub)
+            ->replaceModelNamespace($stub)
+            ->replaceModelNamespaceSegments($stub)
+            ->replacePaginationNumber($stub)
             ->replaceClass($stub, $name);
     }
 
@@ -97,13 +113,12 @@ class APIControllerCommand extends GeneratorCommand
      * Replace the modelName for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $modelName
      *
      * @return $this
      */
-    protected function replaceModelName(&$stub, $modelName)
+    protected function replaceModelName(&$stub)
     {
-        $stub = str_replace('{{modelName}}', $modelName, $stub);
+        $stub = str_replace('{{modelName}}', $this->blueprint->model->name, $stub);
 
         return $this;
     }
@@ -112,12 +127,12 @@ class APIControllerCommand extends GeneratorCommand
      * Replace the modelNameSingular for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $modelNameSingular
      *
      * @return $this
      */
-    protected function replaceModelNameSingular(&$stub, $modelNameSingular)
+    protected function replaceModelNameSingular(&$stub)
     {
+        $modelNameSingular = str_singular(strtolower($this->blueprint->model->name));
         $stub = str_replace('{{modelNameSingular}}', $modelNameSingular, $stub);
 
         return $this;
@@ -127,13 +142,12 @@ class APIControllerCommand extends GeneratorCommand
      * Replace the modelNamespace for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $modelNamespace
      *
      * @return $this
      */
-    protected function replaceModelNamespace(&$stub, $modelNamespace)
+    protected function replaceModelNamespace(&$stub)
     {
-        $stub = str_replace('{{modelNamespace}}', $modelNamespace, $stub);
+        $stub = str_replace('{{modelNamespace}}', $this->getModelNamespace(), $stub);
 
         return $this;
     }
@@ -142,17 +156,16 @@ class APIControllerCommand extends GeneratorCommand
      * Replace the modelNamespace segments for the given stub.
      *
      * @param $stub
-     * @param $modelNamespace
      *
      * @return $this
      */
-    protected function replaceModelNamespaceSegments(&$stub, $modelNamespace)
+    protected function replaceModelNamespaceSegments(&$stub)
     {
+        $modelNamespace = $this->getModelNamespace();
         $modelSegments = explode('\\', $modelNamespace);
         foreach ($modelSegments as $key => $segment) {
             $stub = str_replace('{{modelNamespace['.$key.']}}', $segment, $stub);
         }
-
         $stub = preg_replace('{{modelNamespace\[\d*\]}}', '', $stub);
 
         return $this;
@@ -166,8 +179,9 @@ class APIControllerCommand extends GeneratorCommand
      *
      * @return $this
      */
-    protected function replacePaginationNumber(&$stub, $perPage)
+    protected function replacePaginationNumber(&$stub)
     {
+        $perPage = intval($this->blueprint->controller->pagination);
         $stub = str_replace('{{pagination}}', $perPage, $stub);
 
         return $this;

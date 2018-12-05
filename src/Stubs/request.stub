@@ -29,12 +29,14 @@ class DummyClass extends FormRequest
       case 'DELETE': return [];
       case 'POST':
       {
-        return [];
+        return [{{validations}}
+        ];
       }
       case 'PATCH':
       case 'PUT':
       {
-        return [];
+        return [{{validations}}
+        ];
       }
       default:break;
     }

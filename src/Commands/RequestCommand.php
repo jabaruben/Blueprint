@@ -3,9 +3,12 @@
 namespace PHPJuice\Blueprint\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use PHPJuice\Blueprint\Traits\HasJsonInput;
 
 class RequestCommand extends GeneratorCommand
 {
+    use HasJsonInput;
+
     /**
      * The name and signature of the console command.
      *
@@ -14,7 +17,7 @@ class RequestCommand extends GeneratorCommand
     protected $signature = 'blueprint:request
                             {name : The name of the resource.}
                             {--namespace= : The namespace of the resource.}
-                            {--fields= : fields to be outputed in the result.}
+                            {--validations= : validation rules to be validated against input.}
                             {--force : Overwrite already existing controller.}';
 
     /**
@@ -95,6 +98,26 @@ class RequestCommand extends GeneratorCommand
         $stub = $this->files->get($this->getStub());
 
         return $this->replaceNamespace($stub, $name)
+                    ->replaceValidations($stub)
                     ->replaceClass($stub, $name.'Request');
+    }
+
+    /**
+     * Replace the validation for the given stub.
+     *
+     * @param  string  $stub
+     *
+     * @return $this
+     */
+    protected function replaceValidations(&$stub)
+    {
+        $validations = $this->handleJsonInput('validations');
+        $validationsStr = '';
+        foreach ($validations as $validation) {
+            $validationsStr .= sprintf("\n          '%s' => '%s',", $validation->field, $validation->rules);
+        }
+        $stub = str_replace('{{validations}}', $validationsStr, $stub);
+
+        return $this;
     }
 }

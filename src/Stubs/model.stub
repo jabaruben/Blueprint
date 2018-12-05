@@ -4,7 +4,6 @@ namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
 {{useSoftDeletes}}
-
 class DummyClass extends Model
 {
     {{softDeletes}}
@@ -27,12 +26,14 @@ class DummyClass extends Model
     *
     * @var array
     */
-    protected $fillable = [];
+    protected $fillable = [{{fillable}}];
 
     /**
     * The attributes that should be hidden for arrays.
     *
     * @var array
     */
-    protected $hidden = [];
+    protected $hidden = [{{hidden}}];
+
+    {{relationships}}
 }

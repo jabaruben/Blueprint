@@ -1,21 +1,39 @@
 {
-    "crudName":"{{crudName}}",
-    "modelName":"{{modelName}}",
-    "controllerName" : "{{controllerName}}",
-    "tableName" : "{{tableName}}",
-    "routeName" : "{{routeName}}",
-    "isAPI" : {{isAPI}},
-    "namespace" : "",
-    "schema": {
-        "fields": [],
-        "keys":{
-            "primary":"id",
-            "foreign":[],
-            "indexes":[]
-        },
-        "softDeletes":false
-    },
-    "relationships": [],
+  "crud": {
+    "name": "{{crud.name}}",
+    "namespace": "{{crud.namespace}}",
+    "isApi": "{{crud.isApi}}"
+  },
+  "controller": {
+    "name": "{{controller.name}}",
+    "namespace": "{{controller.namespace}}",
+    "pagination": 10,
     "validations": []
+  },
+  "model": {
+    "name": "{{model.name}}",
+    "namespace": "{{model.namespace}}",
+    "fillable": "",
+    "hidden": "",
+    "softDeletes": false,
+    "relationships": []
+  },
+  "table": {
+    "name": "{{table.name}}",
+    "schema": {
+      "fields": [],
+      "keys": {
+        "primary": "id",
+        "foreign": [],
+        "indexes": []
+      },
+      "softDeletes": false
+    }
+  },
+  "route": {
+    "name": "{{route.name}}",
+    "namespace": "{{route.namespace}}",
+    "url": "{{route.url}}",
+    "middlewares": []
+  }
 }
-
