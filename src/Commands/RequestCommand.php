@@ -112,11 +112,12 @@ class RequestCommand extends GeneratorCommand
     protected function replaceValidations(&$stub)
     {
         $validations = $this->handleJsonInput('validations');
-        $validationsStr = "";
+        $validationsStr = '';
         foreach ($validations as $validation) {
             $validationsStr .= sprintf("\n          '%s' => '%s',", $validation->field, $validation->rules);
         }
         $stub = str_replace('{{validations}}', $validationsStr, $stub);
+
         return $this;
     }
 }

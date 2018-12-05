@@ -111,7 +111,7 @@ class MigrationCommand extends GeneratorCommand
         $schema = json_decode($this->option('schema'), true);
 
         // primary key
-        $primaryKey = isset($schema['keys']['primary']) ? $schema['keys']['primary']: 'id';
+        $primaryKey = isset($schema['keys']['primary']) ? $schema['keys']['primary'] : 'id';
 
         // build schema ouput
         $schemaFields = $this->buildFieldsSegement($schema);
