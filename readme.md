@@ -1,9 +1,11 @@
 # Blueprint
 
-[![Latest Stable Version](https://poser.pugx.org/phpjuice/blueprint/v/stable)](https://packagist.org/packages/phpjuice/blueprint)
-[![Total Downloads](https://poser.pugx.org/phpjuice/blueprint/downloads)](https://packagist.org/packages/phpjuice/blueprint)
-[![Build Status][ico-travis]][link-travis]
+[![Blueprint](https://img.shields.io/badge/Blueprint-crud-blue.svg?style=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
+[![Latest Stable Version](https://poser.pugx.org/phpjuice/blueprint/v/stable?format=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
+[![Total Downloads](https://img.shields.io/packagist/dt/phpjuice/blueprint.svg?style=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
 [![StyleCI](https://github.styleci.io/repos/160396575/shield?branch=master)](https://github.styleci.io/repos/160396575)
+[![GitHub](https://img.shields.io/github/license/phpjuice/blueprint.svg?style=flat-square)](https://github.com/PHPJuice/Blueprint/blob/master/LICENSE)
+
 
 Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.
 
@@ -12,7 +14,7 @@ Blueprint is a powerful CRUD generator to speed up the development of your larav
 Via Composer
 
 ``` bash
-$ composer require phpjuice/blueprint
+$ composer require phpjuice/blueprint --dev
 ```
 
 ## Usage
@@ -37,20 +39,14 @@ If you discover any security related issues, please email author instead of usin
 
 ## Credits
 
-- [Elhaouari Mohammed][https://github.com/thesimpledesigners]
+- [Elhaouari Mohammed](https://github.com/thesimpledesigners)
 
 ## License
 
-license. Please see the [license file](license.md) for more information.
+license. Please see the [license file](LICENCE) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/phpjuice/blueprint.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/phpjuice/blueprint.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/phpjuice/blueprint/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
-
-[link-packagist]: https://packagist.org/packages/phpjuice/blueprint
-[link-downloads]: https://packagist.org/packages/phpjuice/blueprint
-[link-travis]: https://travis-ci.org/phpjuice/blueprint
-[link-styleci]: https://styleci.io/repos/160396575
-[link-author]: https://github.com/phpjuice
-[link-contributors]: ../../contributors
+[![Blueprint](https://img.shields.io/badge/Blueprint-crud-blue.svg?style=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
+[![Latest Stable Version](https://poser.pugx.org/phpjuice/blueprint/v/stable?format=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
+[![Total Downloads](https://img.shields.io/packagist/dt/phpjuice/blueprint.svg?style=flat-square)](https://packagist.org/packages/phpjuice/blueprint)
+[![StyleCI](https://github.styleci.io/repos/160396575/shield?branch=master)](https://github.styleci.io/repos/160396575)
+[![GitHub](https://img.shields.io/github/license/phpjuice/blueprint.svg?style=flat-square)](https://github.com/PHPJuice/Blueprint/blob/master/LICENSE)

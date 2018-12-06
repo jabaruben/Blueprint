@@ -86,18 +86,15 @@ class BlueprintMakeCommand extends Command
 
         // replace controller placeholders
         $stub = str_replace('{{controller.name}}', $controllerName, $stub);
-        $stub = str_replace('{{controller.namespace}}', $crudNamespace, $stub);
 
         // replace model placeholders
         $stub = str_replace('{{model.name}}', $crudName, $stub);
-        $stub = str_replace('{{model.namespace}}', $crudNamespace, $stub);
 
         // replace table placeholders
         $stub = str_replace('{{table.name}}', $tableName, $stub);
 
         // replace route placeholders
         $stub = str_replace('{{route.name}}', $routeName, $stub);
-        $stub = str_replace('{{route.namespace}}', $crudNamespace, $stub);
         $stub = str_replace('{{route.url}}', $routeName, $stub);
 
         return $this;

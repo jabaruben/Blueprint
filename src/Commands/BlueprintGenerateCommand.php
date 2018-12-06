@@ -127,8 +127,7 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--namespace' => $this->blueprint->crud->namespace,
-            '--fields' => $this->blueprint->model->fillable,
+            '--blueprint' => json_encode($this->blueprint),
             '--force' => true,
         ];
         $this->call('blueprint:resource', $args);
@@ -144,8 +143,7 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--namespace' =>  $this->blueprint->crud->namespace,
-            '--validations' =>  json_encode($this->blueprint->controller->validations),
+            '--blueprint' => json_encode($this->blueprint),
             '--force' => true,
         ];
         $this->call('blueprint:request', $args);
@@ -188,9 +186,10 @@ class BlueprintGenerateCommand extends Command
      */
     protected function addAPIRoute()
     {
-        $routeName = $this->blueprint->route->name;
-        $controller = 'API\\'.$this->blueprint->controller->namespace.'\\'.$this->blueprint->controller->name;
+        $namespace = $this->blueprint->crud->namespace;
+        $controller = 'API\\'.$namespace.'\\'.$this->blueprint->controller->name;
+        $url = strtolower($namespace).'/'.$this->blueprint->route->url;
 
-        return ["Route::resource('".$this->blueprint->route->url."', '".$controller."')->name('{$routeName}');"];
+        return ["Route::apiResource('".$url."', '".$controller."');"];
     }
 }
