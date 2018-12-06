@@ -1,12 +1,15 @@
 {
     "name": "phpjuice/blueprint",
     "description": "Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.",
+    "version": "1.0.0-dev",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Elhaouari Mohammed",
             "email": "em@thesimpledesigners.com",
-            "homepage": "https://github.com/thesimpledesigners"
+            "homepage": "https://github.com/thesimpledesigners",
+            "role": "Developer"
         }
     ],
     "homepage": "https://github.com/phpjuice/blueprint",
@@ -19,6 +22,9 @@
         "mockery/mockery": "^1.1",
         "orchestra/testbench": "~3.0",
         "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "config": {
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
