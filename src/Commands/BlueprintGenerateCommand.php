@@ -72,12 +72,13 @@ class BlueprintGenerateCommand extends Command
             '--schema' =>  json_encode($this->blueprint->table->schema),
         ]);
         $foreignKeys = $this->blueprint->table->schema->keys->foreign;
-        if ( count($foreignKeys) > 0 ) {
+        if (count($foreignKeys) > 0) {
             $this->call('blueprint:migration:fk', [
                 'name' => $this->blueprint->table->name,
                 '--keys' =>  json_encode($foreignKeys),
             ]);
         }
+
         return $this;
     }
 
