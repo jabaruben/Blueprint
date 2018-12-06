@@ -80,12 +80,13 @@ class BlueprintServiceProvider extends ServiceProvider
         $this->commands([
             Commands\BlueprintCommand::class,
             Commands\BlueprintMakeCommand::class,
+            Commands\BlueprintModelCommand::class,
+            Commands\BlueprintRequestCommand::class,
+            Commands\BlueprintResourceCommand::class,
             Commands\BlueprintGenerateCommand::class,
-            Commands\ModelCommand::class,
-            Commands\RequestCommand::class,
-            Commands\ResourceCommand::class,
-            Commands\MigrationCommand::class,
-            Commands\APIControllerCommand::class,
+            Commands\BlueprintMigrationCommand::class,
+            Commands\BlueprintMigrationFkCommand::class,
+            Commands\BlueprintControllerApiCommand::class,
         ]);
     }
 }

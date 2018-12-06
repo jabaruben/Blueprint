@@ -4,7 +4,7 @@ namespace PHPJuice\Blueprint\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class BlueprintGenerator extends GeneratorCommand
+class Generator extends GeneratorCommand
 {
     /**
      * The blueprint of class being generated.
