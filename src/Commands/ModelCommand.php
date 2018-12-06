@@ -4,7 +4,6 @@ namespace PHPJuice\Blueprint\Commands;
 
 class ModelCommand extends BlueprintGenerator
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -65,6 +64,7 @@ class ModelCommand extends BlueprintGenerator
     protected function replaceTableName(&$stub)
     {
         $stub = str_replace('{{tableName}}', $this->getTableName(), $stub);
+
         return $this;
     }
 
@@ -79,6 +79,7 @@ class ModelCommand extends BlueprintGenerator
     {
         $fillable = "'".str_replace(',', "','", $this->blueprint->model->fillable)."'";
         $stub = str_replace('{{fillable}}', $fillable, $stub);
+
         return $this;
     }
 
