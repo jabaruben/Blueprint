@@ -13,7 +13,7 @@ class BlueprintGenerateCommand extends Command
      * @var string
      */
     protected $signature = 'blueprint:generate
-                         {--blueprint= : Crud blueprint from a json file.}';
+                            {name : The name of the crud.}';
     /**
      * The console command description.
      *
@@ -38,22 +38,15 @@ class BlueprintGenerateCommand extends Command
      */
     public function handle()
     {
-        if (! $this->option('blueprint')) {
-            $this->error('must provide a blueprint file to generate a crud');
-            $this->info('run: `$ php artisan blueprint:make {name}` to generate a file');
-
-            return 0;
-        }
         try {
             // get and decode json file
-            $this->blueprint = json_decode(File::get($this->option('blueprint')));
+            $this->blueprint = json_decode(File::get($this->argument('name')));
             if (is_null($this->blueprint)) {
                 throw new \Exception(json_last_error());
             }
         } catch (\Exception $e) {
             $this->error('provided json file is not valide! check for errors');
         }
-
         // genreate all the scaffolding
         $this->createMigration();
         $this->createModel();
@@ -78,7 +71,13 @@ class BlueprintGenerateCommand extends Command
             'name' => $this->blueprint->table->name,
             '--schema' =>  json_encode($this->blueprint->table->schema),
         ]);
-
+        $foreignKeys = $this->blueprint->table->schema->keys->foreign;
+        if ( count($foreignKeys) > 0 ) {
+            $this->call('blueprint:migration:fk', [
+                'name' => $this->blueprint->table->name,
+                '--keys' =>  json_encode($foreignKeys),
+            ]);
+        }
         return $this;
     }
 

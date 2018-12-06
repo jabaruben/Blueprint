@@ -4,7 +4,7 @@ namespace PHPJuice\Blueprint\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MigrationCommand extends GeneratorCommand
+class BlueprintMigrationCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -67,6 +67,13 @@ class MigrationCommand extends GeneratorCommand
     ];
 
     /**
+     * The schema of the class being generated.
+     *
+     * @var string
+     */
+    protected $schema;
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -108,15 +115,15 @@ class MigrationCommand extends GeneratorCommand
         $className = $this->generateClassName($tableName);
 
         // get schema
-        $schema = json_decode($this->option('schema'), true);
+        $this->schema = json_decode($this->option('schema'), true);
 
         // primary key
-        $primaryKey = isset($schema['keys']['primary']) ? $schema['keys']['primary'] : 'id';
+        $primaryKey = isset($this->schema['keys']['primary']) ? $this->schema['keys']['primary'] : 'id';
 
         // build schema ouput
-        $schemaFields = $this->buildFieldsSegement($schema);
-        $schemaFields .= $this->buildIndexesSegement($schema);
-        $schemaFields .= $this->buildSoftDeletesSegement($schema);
+        $schemaFields = $this->buildFieldsSegement();
+        $schemaFields .= $this->buildIndexesSegement();
+        $schemaFields .= $this->buildSoftDeletesSegement();
 
         return $this
             ->replaceTableName($stub, $tableName)
@@ -170,8 +177,9 @@ class MigrationCommand extends GeneratorCommand
         return $this;
     }
 
-    protected function buildIndexesSegement($schema)
+    protected function buildIndexesSegement()
     {
+        $schema = $this->schema;
         if (isset($schema['keys']) && isset($schema['keys']['indexes'])) {
             // add indexes and unique indexes as necessary
             $uniqueFields = '';
@@ -198,8 +206,9 @@ class MigrationCommand extends GeneratorCommand
         return '';
     }
 
-    protected function buildFieldsSegement($schema)
+    protected function buildFieldsSegement()
     {
+        $schema = $this->schema;
         if (isset($schema['keys']) && isset($schema['keys']['indexes'])) {
             $segement = '';
             foreach ($schema['fields'] as $field) {
@@ -239,8 +248,9 @@ class MigrationCommand extends GeneratorCommand
         return '';
     }
 
-    protected function buildSoftDeletesSegement($schema)
+    protected function buildSoftDeletesSegement()
     {
+        $schema = $this->schema;
         if (isset($schema['softDeletes']) && $schema['softDeletes'] === true) {
             return "\$table->softDeletes();\n".$this->indent;
         }

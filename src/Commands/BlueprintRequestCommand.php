@@ -2,7 +2,7 @@
 
 namespace PHPJuice\Blueprint\Commands;
 
-class RequestCommand extends BlueprintGenerator
+class BlueprintRequestCommand extends Generator
 {
     /**
      * The name and signature of the console command.
