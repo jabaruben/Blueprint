@@ -73,6 +73,7 @@ class APIControllerCommand extends BlueprintGenerator
     {
         $modelNameSingular = str_singular(strtolower($this->getModelName()));
         $stub = str_replace('{{modelNameSingular}}', $modelNameSingular, $stub);
+
         return $this;
     }
 

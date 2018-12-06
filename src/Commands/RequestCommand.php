@@ -4,7 +4,6 @@ namespace PHPJuice\Blueprint\Commands;
 
 class RequestCommand extends BlueprintGenerator
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -75,6 +74,7 @@ class RequestCommand extends BlueprintGenerator
             $validationsStr .= sprintf("\n          '%s' => '%s',", $validation->field, $validation->rules);
         }
         $stub = str_replace('{{validations}}', $validationsStr, $stub);
+
         return $this;
     }
 }

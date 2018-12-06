@@ -188,7 +188,8 @@ class BlueprintGenerateCommand extends Command
     {
         $namespace = $this->blueprint->crud->namespace;
         $controller = 'API\\'.$namespace.'\\'.$this->blueprint->controller->name;
-        $url = strtolower($namespace) . '/' . $this->blueprint->route->url;
+        $url = strtolower($namespace).'/'.$this->blueprint->route->url;
+
         return ["Route::apiResource('".$url."', '".$controller."');"];
     }
 }

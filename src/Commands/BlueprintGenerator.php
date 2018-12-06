@@ -13,7 +13,6 @@ class BlueprintGenerator extends GeneratorCommand
      */
     protected $blueprint;
 
-
     /**
      * Execute the console command.
      *
@@ -21,11 +20,12 @@ class BlueprintGenerator extends GeneratorCommand
      */
     public function handle()
     {
-        if (!$this->option("blueprint")) {
+        if (! $this->option('blueprint')) {
             $this->error('must provide a blueprint for this genrator to work!');
+
             return 0;
         }
-        $this->blueprint = $this->handleJson($this->option("blueprint"));
+        $this->blueprint = $this->handleJson($this->option('blueprint'));
         parent::handle();
     }
 
@@ -37,6 +37,7 @@ class BlueprintGenerator extends GeneratorCommand
     protected function getStub()
     {
         $name = strtolower($this->type).'.stub';
+
         return __DIR__.'/../Stubs/'.$name;
     }
 
@@ -68,6 +69,7 @@ class BlueprintGenerator extends GeneratorCommand
             default:
                 break;
         }
+
         return $rootNamespace.$this->getCrudNamespace();
     }
 
@@ -82,6 +84,7 @@ class BlueprintGenerator extends GeneratorCommand
         if ($this->option('force')) {
             return false;
         }
+
         return parent::alreadyExists($rawName);
     }
 
@@ -101,6 +104,7 @@ class BlueprintGenerator extends GeneratorCommand
             if (is_null($content)) {
                 throw new \Exception(json_last_error());
             }
+
             return $content;
         } catch (\Exception $e) {
             $this->error('provided json is not valide! check for errors');
@@ -170,7 +174,7 @@ class BlueprintGenerator extends GeneratorCommand
     /**
      * Is a restfull api crud.
      *
-     * @return boolean
+     * @return bool
      */
     protected function isApi()
     {
