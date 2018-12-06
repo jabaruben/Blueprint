@@ -64,6 +64,7 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
         $datePrefix = date('Y_m_d_His', strtotime('+ 5 seconds'));
+
         return database_path('/migrations/').$datePrefix.'_add_fk_to_'.$name.'_table.php';
     }
 
@@ -82,13 +83,14 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
         // genreate table name
         $className = $this->generateClassName($name);
         // get schema
-        $this->keys = json_decode($this->option('keys'),true);
+        $this->keys = json_decode($this->option('keys'), true);
         // replace the tableName in the stub
         $this->replaceTableName($stub, $tableName);
         // replace the key names in the stub
         $this->replaceForeignKeyNames($stub);
         // replace the actual foreignKeys in the stub
         $this->replaceForeignKeys($stub);
+
         return $this->replaceClass($stub, $className);
     }
 
@@ -121,7 +123,7 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
         foreach ($this->getForeignKeyNames() as $name) {
             $fkStr .= sprintf("\n\t\t\t'%s',", $name);
         }
-        $fkStr = rtrim($fkStr, ',') . "\n\t\t";
+        $fkStr = rtrim($fkStr, ',')."\n\t\t";
         $stub = str_replace('{{foreignKeyNames}}', $fkStr, $stub);
 
         return $this;
@@ -147,20 +149,22 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
     protected function getForeignKeyNames()
     {
         $keys = [];
-        foreach($this->keys as $key) {
-            array_push($keys,$key['column']);
+        foreach ($this->keys as $key) {
+            array_push($keys, $key['column']);
         }
+
         return $keys;
     }
 
-    protected function replaceForeignKeys(&$stub) {
+    protected function replaceForeignKeys(&$stub)
+    {
         $format = "\$table->unsignedInteger('%1\$s');
         \$table->foreign('%1\$s')
             ->references('%2\$s')
             ->on('%3\$s')
             ->onUpdate('%4\$s')
             ->onDelete('%5\$s');";
-        $str = "";
+        $str = '';
         foreach ($this->keys as $key) {
             $str .= sprintf($format,
                 $key['column'],
@@ -172,6 +176,7 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
             $str .= "\n\t\t";
         }
         $stub = str_replace('{{foreignKeys}}', $str, $stub);
+
         return $this;
     }
 }
