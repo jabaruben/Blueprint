@@ -2,17 +2,15 @@
   "crud": {
     "name": "{{crud.name}}",
     "namespace": "{{crud.namespace}}",
-    "isApi": "{{crud.isApi}}"
+    "isApi": {{crud.isApi}}
   },
   "controller": {
     "name": "{{controller.name}}",
-    "namespace": "{{controller.namespace}}",
     "pagination": 10,
     "validations": []
   },
   "model": {
     "name": "{{model.name}}",
-    "namespace": "{{model.namespace}}",
     "fillable": "",
     "hidden": "",
     "softDeletes": false,
@@ -32,7 +30,6 @@
   },
   "route": {
     "name": "{{route.name}}",
-    "namespace": "{{route.namespace}}",
     "url": "{{route.url}}",
     "middlewares": []
   }

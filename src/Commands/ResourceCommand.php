@@ -2,9 +2,7 @@
 
 namespace PHPJuice\Blueprint\Commands;
 
-use Illuminate\Console\GeneratorCommand;
-
-class ResourceCommand extends GeneratorCommand
+class ResourceCommand extends BlueprintGenerator
 {
     /**
      * The name and signature of the console command.
@@ -12,10 +10,9 @@ class ResourceCommand extends GeneratorCommand
      * @var string
      */
     protected $signature = 'blueprint:resource
-                            {name : The name of the resource.}
-                            {--namespace= : The namespace of the resource.}
-                            {--fields= : fields to be outputed in the result.}
-                            {--force : Overwrite already existing controller.}';
+                            {name : The name of resource.}
+                            {--blueprint= : blueprint from a json file.}
+                            {--force : Overwrite already existing resource.}';
 
     /**
      * The console command description.
@@ -32,28 +29,6 @@ class ResourceCommand extends GeneratorCommand
     protected $type = 'Resource';
 
     /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__.'/../Stubs/resource.stub';
-    }
-
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string $rootNamespace
-     *
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace.'\\Http\\Resources\\'.($this->option('namespace') ? $this->option('namespace') : '');
-    }
-
-    /**
      * Get the destination class path.
      *
      * @param  string  $name
@@ -65,22 +40,7 @@ class ResourceCommand extends GeneratorCommand
         $name = str_replace($this->laravel->getNamespace(), '', $name);
         $name = str_replace('\\', DIRECTORY_SEPARATOR, $name);
 
-        return app_path().DIRECTORY_SEPARATOR.$name.'Resource.php';
-    }
-
-    /**
-     * Determine if the class already exists.
-     *
-     * @param  string  $rawName
-     * @return bool
-     */
-    protected function alreadyExists($rawName)
-    {
-        if ($this->option('force')) {
-            return false;
-        }
-
-        return parent::alreadyExists($rawName);
+        return app_path().DIRECTORY_SEPARATOR.$name.$this->type.'.php';
     }
 
     /**
@@ -96,7 +56,7 @@ class ResourceCommand extends GeneratorCommand
 
         return $this->replaceNamespace($stub, $name)
                     ->replaceFields($stub)
-                    ->replaceClass($stub, $name.'Resource');
+                    ->replaceClass($stub, $name.$this->type);
     }
 
     /**
@@ -108,7 +68,7 @@ class ResourceCommand extends GeneratorCommand
      */
     protected function replaceFields(&$stub)
     {
-        $fields = explode(',', $this->option('fields'));
+        $fields = explode(',', $this->blueprint->model->fillable);
         $fieldsStr = '';
         foreach ($fields as $field) {
             $fieldsStr .= sprintf("\n      '%s' => \$this->%s,", $field, $field);

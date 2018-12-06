@@ -2,13 +2,8 @@
 
 namespace PHPJuice\Blueprint\Commands;
 
-use Illuminate\Console\GeneratorCommand;
-use PHPJuice\Blueprint\Traits\HasJsonInput;
-
-class APIControllerCommand extends GeneratorCommand
+class APIControllerCommand extends BlueprintGenerator
 {
-    use HasJsonInput;
-
     /**
      * The name and signature of the console command.
      *
@@ -31,63 +26,7 @@ class APIControllerCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $type = 'Controller';
-
-    /**
-     * The blueprint of class being generated.
-     *
-     * @var string
-     */
-    protected $blueprint;
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__.'/../Stubs/controller-api.stub';
-    }
-
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string $rootNamespace
-     *
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        $this->blueprint = $this->handleJsonInput('blueprint');
-
-        return $rootNamespace.'\\Http\\Controllers\\API\\'.$this->getControllerNamespace();
-    }
-
-    protected function getControllerNamespace()
-    {
-        return isset($this->blueprint->controller->namespace) ? $this->blueprint->controller->namespace : $this->blueprint->crud->namespace;
-    }
-
-    protected function getModelNamespace()
-    {
-        return isset($this->blueprint->model->namespace) ? $this->blueprint->model->namespace : $this->blueprint->crud->namespace;
-    }
-
-    /**
-     * Determine if the class already exists.
-     *
-     * @param  string  $rawName
-     * @return bool
-     */
-    protected function alreadyExists($rawName)
-    {
-        if ($this->option('force')) {
-            return false;
-        }
-
-        return parent::alreadyExists($rawName);
-    }
+    protected $type = 'ApiController';
 
     /**
      * Build the model class with the given name.
@@ -118,7 +57,7 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function replaceModelName(&$stub)
     {
-        $stub = str_replace('{{modelName}}', $this->blueprint->model->name, $stub);
+        $stub = str_replace('{{modelName}}', $this->getModelName(), $stub);
 
         return $this;
     }
@@ -132,9 +71,8 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function replaceModelNameSingular(&$stub)
     {
-        $modelNameSingular = str_singular(strtolower($this->blueprint->model->name));
+        $modelNameSingular = str_singular(strtolower($this->getModelName()));
         $stub = str_replace('{{modelNameSingular}}', $modelNameSingular, $stub);
-
         return $this;
     }
 
@@ -147,7 +85,7 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function replaceModelNamespace(&$stub)
     {
-        $stub = str_replace('{{modelNamespace}}', $this->getModelNamespace(), $stub);
+        $stub = str_replace('{{modelNamespace}}', $this->getCrudNamespace(), $stub);
 
         return $this;
     }
@@ -161,7 +99,7 @@ class APIControllerCommand extends GeneratorCommand
      */
     protected function replaceModelNamespaceSegments(&$stub)
     {
-        $modelNamespace = $this->getModelNamespace();
+        $modelNamespace = $this->getCrudNamespace();
         $modelSegments = explode('\\', $modelNamespace);
         foreach ($modelSegments as $key => $segment) {
             $stub = str_replace('{{modelNamespace['.$key.']}}', $segment, $stub);

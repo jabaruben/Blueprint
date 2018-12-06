@@ -2,12 +2,8 @@
 
 namespace PHPJuice\Blueprint\Commands;
 
-use Illuminate\Console\GeneratorCommand;
-use PHPJuice\Blueprint\Traits\HasJsonInput;
-
-class ModelCommand extends GeneratorCommand
+class ModelCommand extends BlueprintGenerator
 {
-    use HasJsonInput;
 
     /**
      * The name and signature of the console command.
@@ -32,42 +28,6 @@ class ModelCommand extends GeneratorCommand
      * @var string
      */
     protected $type = 'Model';
-
-    /**
-     * The blueprint file for model being generated.
-     *
-     * @var string
-     */
-    protected $blueprint;
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__.'/../Stubs/model.stub';
-    }
-
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string $rootNamespace
-     *
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        $this->blueprint = $this->handleJsonInput('blueprint');
-
-        return $rootNamespace.'\\Models\\'.$this->getModelNamespace();
-    }
-
-    protected function getModelNamespace()
-    {
-        return isset($this->blueprint->model->namespace) ? $this->blueprint->model->namespace : $this->blueprint->crud->namespace;
-    }
 
     /**
      * Build the model class with the given name.
@@ -104,8 +64,7 @@ class ModelCommand extends GeneratorCommand
      */
     protected function replaceTableName(&$stub)
     {
-        $stub = str_replace('{{tableName}}', $this->blueprint->table->name, $stub);
-
+        $stub = str_replace('{{tableName}}', $this->getTableName(), $stub);
         return $this;
     }
 
@@ -120,7 +79,6 @@ class ModelCommand extends GeneratorCommand
     {
         $fillable = "'".str_replace(',', "','", $this->blueprint->model->fillable)."'";
         $stub = str_replace('{{fillable}}', $fillable, $stub);
-
         return $this;
     }
 
