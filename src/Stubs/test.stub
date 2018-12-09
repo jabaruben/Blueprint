@@ -1,0 +1,91 @@
+<?php
+
+namespace DummyNamespace;
+
+use Tests\TestCase;
+
+class DummyClass extends TestCase
+{
+  /**
+   * A basic test example.
+   *
+   * @return void
+   */
+  public function testIndex()
+  {
+    $response = $this->actingAs($this->user)
+                     ->json('get', '{{route.url}}');
+    $response->assertStatus(200)->assertJson([]);
+  }
+
+  /**
+   * A basic test example.
+   *
+   * @return void
+   */
+  public function testCreate()
+  {
+    $payload = [{{payload.save}}];
+    $response = $this->actingAs($this->user)
+                     ->json('post', '{{route.url}}',$payload);
+    $response->assertStatus(201)->assertJson([
+      'data' => $payload
+    ]);
+  }
+
+  /**
+   * A basic test example.
+   *
+   * @return void
+   */
+  public function testShow()
+  {
+    $payload = [{{payload.save}}];
+    $response = $this->actingAs($this->user)
+    ->json('post', '{{route.url}}',$payload);
+    $id = $response->json()['data']['{{primaryKey}}'];
+    $response = $this->actingAs($this->user)
+                     ->json('get', '{{route.url}}/'.$id);
+    $response->assertStatus(200)->assertJson([
+      'data' => $payload
+    ]);
+  }
+
+  /**
+   * A basic test example.
+   *
+   * @return void
+   */
+  public function testUpdate()
+  {
+    $payload = [{{payload.save}}];
+    $response = $this->actingAs($this->user)
+                     ->json('post', '{{route.url}}',$payload);
+    $id = $response->json()['data']['{{primaryKey}}'];
+    $payload = [{{payload.update}}];
+    $response = $this->actingAs($this->user)
+                     ->json('put', '{{route.url}}/'.$id,$payload);
+
+    $response->assertStatus(200)->assertJson([
+      'data' => $payload
+    ]);
+  }
+
+  /**
+   * A basic test example.
+   *
+   * @return void
+   */
+  public function testDelete()
+  {
+    $payload = [{{payload.save}}];
+    $response = $this->actingAs($this->user)
+    ->json('post', '{{route.url}}',$payload);
+    $id = $response->json()['data']['{{primaryKey}}'];
+    $response = $this->actingAs($this->user)
+                     ->json('delete', '{{route.url}}/'.$id);
+    $response->assertStatus(200)->assertJson([
+      'data' => $payload
+    ]);
+  }
+}

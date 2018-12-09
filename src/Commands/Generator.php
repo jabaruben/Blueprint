@@ -25,7 +25,7 @@ class Generator extends GeneratorCommand
 
             return 0;
         }
-        $this->blueprint = $this->handleJson($this->option('blueprint'));
+        $this->blueprint = $this->option('blueprint');
         parent::handle();
     }
 
@@ -66,6 +66,9 @@ class Generator extends GeneratorCommand
             case 'Controller':
                 $rootNamespace .= '\\Http\\Controllers\\';
                 break;
+            case 'Test':
+                $rootNamespace .= '\\Feature\\';
+                break;
             default:
                 break;
         }
@@ -86,29 +89,6 @@ class Generator extends GeneratorCommand
         }
 
         return parent::alreadyExists($rawName);
-    }
-
-    /**
-     * Handles json decoding.
-     *
-     * @param  string  $json
-     * @return string
-     *
-     * @throws \Exception
-     */
-    protected function handleJson($jsonStr)
-    {
-        try {
-            // get and decode json file
-            $content = json_decode($jsonStr);
-            if (is_null($content)) {
-                throw new \Exception(json_last_error());
-            }
-
-            return $content;
-        } catch (\Exception $e) {
-            $this->error('provided json is not valide! check for errors');
-        }
     }
 
     /**
@@ -169,6 +149,16 @@ class Generator extends GeneratorCommand
     protected function getRouteName()
     {
         return $this->blueprint->route->name;
+    }
+
+    /**
+     * Gets the route url.
+     *
+     * @return string
+     */
+    protected function getRouteUrl()
+    {
+        return $this->blueprint->route->url;
     }
 
     /**

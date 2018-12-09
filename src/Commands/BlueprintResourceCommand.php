@@ -71,7 +71,7 @@ class BlueprintResourceCommand extends Generator
         $fields = explode(',', $this->blueprint->model->fillable);
         $fieldsStr = '';
         foreach ($fields as $field) {
-            $fieldsStr .= sprintf("\n      '%s' => \$this->%s,", $field, $field);
+            $fieldsStr .= sprintf("'%s' => \$this->%s,\n      ", $field, $field);
         }
         $stub = str_replace('{{fields}}', $fieldsStr, $stub);
 

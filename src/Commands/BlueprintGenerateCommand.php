@@ -48,11 +48,13 @@ class BlueprintGenerateCommand extends Command
             $this->error('provided json file is not valide! check for errors');
         }
         // genreate all the scaffolding
-        $this->createMigration();
+        $this->createTest();
         $this->createModel();
-        $this->createController();
-        $this->createResource();
         $this->createRequest();
+        $this->createResource();
+        $this->createMigration();
+        $this->createController();
+
         $this->createRoute();
 
         // For optimizing the class loader
@@ -90,10 +92,26 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--blueprint' => json_encode($this->blueprint),
+            '--blueprint' => $this->blueprint,
             '--force' => true,
         ];
         $this->call('blueprint:model', $args);
+
+        return $this;
+    }
+
+    /**
+     * creates a test case.
+     * @return $this
+     */
+    protected function createTest()
+    {
+        $args = [
+            'name' => $this->blueprint->model->name,
+            '--blueprint' => $this->blueprint,
+            '--force' => true,
+        ];
+        $this->call('blueprint:test', $args);
 
         return $this;
     }
@@ -106,7 +124,7 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' =>$this->blueprint->controller->name,
-            '--blueprint' => json_encode($this->blueprint),
+            '--blueprint' => $this->blueprint,
             '--force' => true,
         ];
         if ((bool) $this->blueprint->crud->isApi) {
@@ -127,7 +145,7 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--blueprint' => json_encode($this->blueprint),
+            '--blueprint' => $this->blueprint,
             '--force' => true,
         ];
         $this->call('blueprint:resource', $args);
@@ -143,7 +161,7 @@ class BlueprintGenerateCommand extends Command
     {
         $args = [
             'name' => $this->blueprint->model->name,
-            '--blueprint' => json_encode($this->blueprint),
+            '--blueprint' => $this->blueprint,
             '--force' => true,
         ];
         $this->call('blueprint:request', $args);
