@@ -1,7 +1,6 @@
 {
     "name": "phpjuice/blueprint",
     "description": "Blueprint is a powerful CRUD generator to speed up the development of your laravel apps.",
-    "version": "1.0.0-dev",
     "type": "library",
     "license": "MIT",
     "authors": [
