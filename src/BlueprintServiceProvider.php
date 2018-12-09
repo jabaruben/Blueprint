@@ -61,6 +61,11 @@ class BlueprintServiceProvider extends ServiceProvider
             __DIR__.'/../config/blueprint.php' => config_path('blueprint.php'),
         ], 'blueprint.config');
 
+        // Publishing templates.
+        $this->publishes([
+            __DIR__.'/Stubs' => base_path('resources/vendor/blueprint'),
+        ], 'blueprint.templates');
+
         // Publishing the views.
         /*$this->publishes([
             __DIR__.'/../resources/views' => base_path('resources/views/vendor/phpjuice'),

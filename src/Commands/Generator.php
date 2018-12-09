@@ -36,9 +36,11 @@ class Generator extends GeneratorCommand
      */
     protected function getStub()
     {
-        $name = strtolower($this->type).'.stub';
+        $name = snake_case($this->type, '-').'.stub';
 
-        return __DIR__.'/../Stubs/'.$name;
+        return config('blueprint.custom_template')
+        ? config('blueprint.path').$name
+        : __DIR__.'/../Stubs/'.$name;
     }
 
     /**
