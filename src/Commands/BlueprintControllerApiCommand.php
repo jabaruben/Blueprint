@@ -120,7 +120,7 @@ class BlueprintControllerApiCommand extends Generator
      */
     protected function replacePaginationNumber(&$stub)
     {
-        $perPage = intval($this->blueprint->controller->pagination);
+        $perPage = intval($this->blueprint->get('controller')['pagination']);
         $stub = str_replace('{{pagination}}', $perPage, $stub);
 
         return $this;

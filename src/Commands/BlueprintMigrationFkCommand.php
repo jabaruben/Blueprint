@@ -83,7 +83,7 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
         // genreate table name
         $className = $this->generateClassName($name);
         // get schema
-        $this->keys = json_decode($this->option('keys'), true);
+        $this->keys = $this->option('keys');
         // replace the tableName in the stub
         $this->replaceTableName($stub, $tableName);
         // replace the key names in the stub

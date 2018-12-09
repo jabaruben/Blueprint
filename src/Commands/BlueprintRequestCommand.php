@@ -68,10 +68,10 @@ class BlueprintRequestCommand extends Generator
      */
     protected function replaceValidations(&$stub)
     {
-        $validations = $this->blueprint->controller->validations;
+        $validations = $this->blueprint->get('controller')['validations'];
         $validationsStr = '';
         foreach ($validations as $validation) {
-            $validationsStr .= sprintf("\n          '%s' => '%s',", $validation->field, $validation->rules);
+            $validationsStr .= sprintf("\n          '%s' => '%s',", $validation['field'], $validation['rules']);
         }
         $stub = str_replace('{{validations}}', $validationsStr, $stub);
 

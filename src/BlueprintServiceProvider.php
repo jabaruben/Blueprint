@@ -86,7 +86,7 @@ class BlueprintServiceProvider extends ServiceProvider
             Commands\BlueprintResourceCommand::class,
             Commands\BlueprintGenerateCommand::class,
             Commands\BlueprintMigrationCommand::class,
-            Commands\BlueprintMigrationCommand::class,
+            Commands\BlueprintMigrationFkCommand::class,
             Commands\BlueprintControllerApiCommand::class,
         ]);
     }

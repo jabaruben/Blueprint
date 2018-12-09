@@ -68,7 +68,7 @@ class BlueprintResourceCommand extends Generator
      */
     protected function replaceFields(&$stub)
     {
-        $fields = explode(',', $this->blueprint->model->fillable);
+        $fields = explode(',', $this->blueprint->get('model')['fillable']);
         $fieldsStr = '';
         foreach ($fields as $field) {
             $fieldsStr .= sprintf("'%s' => \$this->%s,\n      ", $field, $field);

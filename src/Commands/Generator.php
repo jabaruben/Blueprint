@@ -98,7 +98,7 @@ class Generator extends GeneratorCommand
      */
     protected function getCrudNamespace()
     {
-        return $this->blueprint->crud->namespace;
+        return $this->blueprint->get('crud')['namespace'];
     }
 
     /**
@@ -108,7 +108,7 @@ class Generator extends GeneratorCommand
      */
     protected function getCrudName()
     {
-        return $this->blueprint->crud->name;
+        return $this->blueprint->get('crud')['name'];
     }
 
     /**
@@ -118,7 +118,7 @@ class Generator extends GeneratorCommand
      */
     protected function getModelName()
     {
-        return $this->blueprint->model->name;
+        return $this->blueprint->get('model')['name'];
     }
 
     /**
@@ -128,7 +128,7 @@ class Generator extends GeneratorCommand
      */
     protected function getControllerName()
     {
-        return $this->blueprint->controller->name;
+        return $this->blueprint->get('controller')['name'];
     }
 
     /**
@@ -138,7 +138,7 @@ class Generator extends GeneratorCommand
      */
     protected function getTableName()
     {
-        return $this->blueprint->table->name;
+        return $this->blueprint->get('table')['name'];
     }
 
     /**
@@ -148,7 +148,7 @@ class Generator extends GeneratorCommand
      */
     protected function getRouteName()
     {
-        return $this->blueprint->route->name;
+        return $this->blueprint->get('route')['name'];
     }
 
     /**
@@ -158,7 +158,7 @@ class Generator extends GeneratorCommand
      */
     protected function getRouteUrl()
     {
-        return $this->blueprint->route->url;
+        return $this->blueprint->get('route')['url'];
     }
 
     /**
@@ -168,6 +168,6 @@ class Generator extends GeneratorCommand
      */
     protected function isApi()
     {
-        return $this->blueprint->crud->isApi;
+        return $this->blueprint->get('crud')['isApi'];
     }
 }

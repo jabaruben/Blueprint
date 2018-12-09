@@ -115,7 +115,7 @@ class BlueprintMigrationCommand extends GeneratorCommand
         $className = $this->generateClassName($tableName);
 
         // get schema
-        $this->schema = json_decode($this->option('schema'), true);
+        $this->schema = $this->option('schema');
 
         // primary key
         $primaryKey = isset($this->schema['keys']['primary']) ? $this->schema['keys']['primary'] : 'id';

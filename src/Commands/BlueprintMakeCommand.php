@@ -2,7 +2,6 @@
 
 namespace PHPJuice\Blueprint\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
 class BlueprintMakeCommand extends Command
@@ -55,7 +54,7 @@ class BlueprintMakeCommand extends Command
         $this->generateBlueprintsDir();
         // check if the crud name already exists
         if ($this->alreadyExists()) {
-            $this->error('crud already exists, make sure to check your blueprints folder!');
+            $this->error('crud blueprint already exists, make sure to check your blueprints folder!');
 
             return 0;
         }
@@ -101,36 +100,6 @@ class BlueprintMakeCommand extends Command
     }
 
     /**
-     * Determine if the crud already exists.
-     *
-     * @return bool
-     */
-    protected function alreadyExists()
-    {
-        $crudName = $this->getCrudName();
-        foreach (File::files($this->getBlueprintsDirectory()) as $file) {
-            try {
-                $fileContent = json_decode(\File::get($file));
-                if (is_null($fileContent)) {
-                    throw new \Exception(json_last_error());
-                }
-                if ($fileContent->crudName === $crudName) {
-                    return true;
-                }
-            } catch (\Exception $e) {
-                throw new \Exception('not valide json file in your blueprints folder');
-            }
-        }
-
-        return false;
-    }
-
-    protected function runningWithDatabase()
-    {
-        return false;
-    }
-
-    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -150,26 +119,6 @@ class BlueprintMakeCommand extends Command
     {
         return $this->getBlueprintsDirectory().date('Y_m_d_His').
             '_create_'.$name.'_crud_blueprint.json';
-    }
-
-    /**
-     * Get the blueprints path.
-     *
-     * @param  string $name
-     * @return string
-     */
-    protected function getBlueprintsDirectory()
-    {
-        return database_path().'/blueprints/';
-    }
-
-    /**
-     * return the formated curd name.
-     * @return string curd name
-     */
-    protected function getCrudName()
-    {
-        return  str_singular(preg_replace('/crud$/i', '', $this->argument('name')));
     }
 
     /**

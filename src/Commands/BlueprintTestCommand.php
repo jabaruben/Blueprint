@@ -91,7 +91,7 @@ class BlueprintTestCommand extends Generator
      */
     protected function replaceSavePayload(&$stub)
     {
-        $fields = explode(',', $this->blueprint->model->fillable);
+        $fields = explode(',', $this->blueprint->get('model')['fillable']);
         $fieldsStr = '';
         foreach ($fields as $field) {
             $fieldsStr .= sprintf("\n      '%s' => 'test save',", $field, $field);
@@ -111,7 +111,7 @@ class BlueprintTestCommand extends Generator
      */
     protected function replaceUpdatePayload(&$stub)
     {
-        $fields = explode(',', $this->blueprint->model->fillable);
+        $fields = explode(',', $this->blueprint->get('model')['fillable']);
         $fieldsStr = '';
         foreach ($fields as $field) {
             $fieldsStr .= sprintf("\n      '%s' => 'test update',", $field, $field);
@@ -132,7 +132,7 @@ class BlueprintTestCommand extends Generator
      */
     protected function replacePrimaryKey(&$stub)
     {
-        $key = $this->blueprint->table->schema->keys->primary;
+        $key = $this->blueprint->get('table')['schema']['keys']['primary'];
         $stub = str_replace('{{primaryKey}}', $key, $stub);
 
         return $this;

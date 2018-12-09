@@ -77,7 +77,7 @@ class BlueprintModelCommand extends Generator
      */
     protected function replaceFillable(&$stub)
     {
-        $fillable = "'".str_replace(',', "','", $this->blueprint->model->fillable)."'";
+        $fillable = "'".str_replace(',', "','", $this->blueprint->get('model')['fillable'])."'";
         $stub = str_replace('{{fillable}}', $fillable, $stub);
 
         return $this;
@@ -92,7 +92,7 @@ class BlueprintModelCommand extends Generator
      */
     protected function replaceHidden(&$stub)
     {
-        $hidden = "'".str_replace(',', "','", $this->blueprint->model->hidden)."'";
+        $hidden = "'".str_replace(',', "','", $this->blueprint->get('model')['hidden'])."'";
         $stub = str_replace('{{hidden}}', $hidden, $stub);
 
         return $this;
@@ -108,7 +108,7 @@ class BlueprintModelCommand extends Generator
      */
     protected function replacePrimaryKey(&$stub)
     {
-        $key = $this->blueprint->table->schema->keys->primary;
+        $key = $this->blueprint->get('table')['schema']['keys']['primary'];
         $stub = str_replace('{{primaryKey}}', $key, $stub);
 
         return $this;
@@ -123,7 +123,7 @@ class BlueprintModelCommand extends Generator
      */
     protected function replaceSoftDelete(&$stub)
     {
-        if ($this->blueprint->model->softDeletes) {
+        if ($this->blueprint->get('model')['softDeletes']) {
             $stub = str_replace('{{softDeletes}}', "use SoftDeletes;\n    ", $stub);
             $stub = str_replace('{{useSoftDeletes}}', "use Illuminate\Database\Eloquent\SoftDeletes;\n", $stub);
         } else {
@@ -143,7 +143,7 @@ class BlueprintModelCommand extends Generator
      */
     protected function replaceRelationships(&$stub)
     {
-        $relationships = $this->blueprint->model->relationships;
+        $relationships = $this->blueprint->get('model')['relationships'];
         $relationshipsCode = '';
         if (count($relationships) > 0) {
             foreach ($relationships as $relation) {
