@@ -80,6 +80,48 @@ php artisan blueprint:make Post
 
 After running this command a crud blueprint file will be generated under your database folder `database/blueprints`, the naming convention will follow laravel migrations naming conventions. ex: `2018_12_09_144004_create_post_crud_blueprint.json`
 
+And here is a basic strucure for a blueprint json file,following laravel's naming conventions the crud will generate resource names from the `CRUD_NAME` arguement passed to `php artisan blueprint:make` command.
+
+**Example:**
+```json
+{
+  "crud": {
+    "name": "Post",
+    "namespace": "Posts",
+    "isApi": true
+  },
+  "controller": {
+    "name": "PostsController",
+    "pagination": 10,
+    "validations": []
+  },
+  "model": {
+    "name": "Post",
+    "fillable": "",
+    "hidden": "",
+    "softDeletes": false,
+    "relationships": []
+  },
+  "table": {
+    "name": "posts",
+    "schema": {
+      "fields": [],
+      "keys": {
+        "primary": "id",
+        "foreign": [],
+        "indexes": []
+      },
+      "softDeletes": false
+    }
+  },
+  "route": {
+    "name": "posts",
+    "url": "posts",
+    "middlewares": []
+  }
+}
+```
+
 ### Generating a CRUD
 
 Inorder to generate the crud we created we use the following command :
@@ -117,6 +159,91 @@ After generating the curd and creating all resources, run migrate command:
 php artisan migrate
 ```
 
+## CRUD Blueprint Example
+
+```json
+{
+    "crud": {
+        "name": "Post",
+        "namespace": "Content",
+        "isApi": true
+    },
+    "controller": {
+        "name": "PostsController",
+        "namespace": "Content",
+        "pagination": 10,
+        "validations": [
+            {
+                "field": "title",
+                "rules": "required|min:5|unique:posts"
+            },
+            {
+                "field": "content",
+                "rules": "required|min:5"
+            }
+        ]
+    },
+    "model": {
+        "name": "Post",
+        "namespace": "Content",
+        "fillable": "title,content",
+        "hidden": "user_id",
+        "softDeletes": true,
+        "relationships": [
+            {
+                "name": "user",
+                "type": "belongsTo",
+                "class": "App\\User"
+            }
+        ]
+    },
+    "table": {
+        "name": "posts",
+        "schema": {
+            "fields": [
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "content",
+                    "type": "text"
+                }
+            ],
+            "keys": {
+                "primary": "id",
+                "foreign": [
+                    {
+                        "column": "user_id",
+                        "references": "id",
+                        "on": "users",
+                        "onDelete": "cascade",
+                        "onUpdate": "cascade"
+                    }
+                ],
+                "indexes": [
+                    {
+                        "field": "title",
+                        "type": "unique"
+                    },{
+                        "field": "title",
+                        "type": "index"
+                    }
+                ]
+            },
+            "softDeletes": true
+        }
+    },
+    "route": {
+        "name": "posts",
+        "namespace": "Posts",
+        "url": "posts",
+        "middlewares": []
+    }
+}
+
+```
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
@@ -131,7 +258,7 @@ If you discover any security related issues, please email author instead of usin
 
 ## Credits
 
-- [Elhaouari Mohammed](https://github.com/thesimpledesigners)
+- [appzcoder] (https://github.com/appzcoder/crud-generator)
 
 ## License
 
