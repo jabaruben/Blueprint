@@ -15,10 +15,9 @@ class Command extends IlluminateCommand
     protected function alreadyExists()
     {
         foreach (File::files($this->getBlueprintsDirectory()) as $file) {
-            $crudName = $this->getCrudName();
-            $fileContent = $this->handleJson(File::get($file));
-            if ($fileContent['crud']['name'] === $crudName) {
-                return $fileContent;
+            preg_match('/_create_(\w{1,})_crud_/', $file->getFilename(), $matches);
+            if ($this->getCrudName() === studly_case($matches[1])) {
+                return $this->handleJson(File::get($file));
             }
         }
 
@@ -43,7 +42,9 @@ class Command extends IlluminateCommand
      */
     protected function getCrudName()
     {
-        return  str_singular(preg_replace('/crud$/i', '', $this->argument('name')));
+        return  $this->option('precise') ?
+                    $this->argument('name') :
+                    str_singular(preg_replace('/crud$/i', '', $this->argument('name')));
     }
 
     /**

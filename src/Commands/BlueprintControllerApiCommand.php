@@ -71,7 +71,7 @@ class BlueprintControllerApiCommand extends Generator
      */
     protected function replaceModelNameSingular(&$stub)
     {
-        $modelNameSingular = str_singular(strtolower($this->getModelName()));
+        $modelNameSingular = snake_case(str_singular($this->getModelName()));
         $stub = str_replace('{{modelNameSingular}}', $modelNameSingular, $stub);
 
         return $this;

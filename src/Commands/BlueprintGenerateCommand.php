@@ -12,7 +12,8 @@ class BlueprintGenerateCommand extends Command
      * @var string
      */
     protected $signature = 'blueprint:generate
-                            {name : The name of the crud.}';
+                            {name : The name of the crud.}
+                            {--P|precise}';
     /**
      * The console command description.
      *

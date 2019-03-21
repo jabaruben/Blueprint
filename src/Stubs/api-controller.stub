@@ -16,9 +16,10 @@ class DummyClass extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
-    return {{modelName}}Resource::collection({{modelName}}::paginate({{pagination}}));
+    $per_page = $request->has('per_page') ? (int) $request->get('per_page') : {{pagination}};
+    return {{modelName}}Resource::collection({{modelName}}::paginate($per_page));
   }
 
   /**
@@ -35,10 +36,11 @@ class DummyClass extends Controller
   /**
    * Display the specified resource.
    *
+   * @param Request $request
    * @param  {{modelName}}  ${{modelNameSingular}}
    * @return \Illuminate\Http\Response
    */
-  public function show({{modelName}} ${{modelNameSingular}})
+  public function show(Request $request, {{modelName}} ${{modelNameSingular}})
   {
     return new {{modelName}}Resource(${{modelNameSingular}});
   }
@@ -60,10 +62,11 @@ class DummyClass extends Controller
   /**
    * Remove the specified resource from storage.
    *
+   * @param Request $request
    * @param  {{modelName}}  ${{modelNameSingular}}
    * @return \Illuminate\Http\Response
    */
-  public function destroy({{modelName}} ${{modelNameSingular}})
+  public function destroy(Request $request, {{modelName}} ${{modelNameSingular}})
   {
     $deletedModel = ${{modelNameSingular}};
     ${{modelNameSingular}}->delete();

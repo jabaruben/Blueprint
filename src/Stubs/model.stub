@@ -4,9 +4,11 @@ namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
 {{useSoftDeletes}}
+
 class DummyClass extends Model
 {
     {{softDeletes}}
+    use \PHPJuice\Blueprint\Concerns\HasUUID;
     /**
     * table name
     *

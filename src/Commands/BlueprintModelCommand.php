@@ -148,11 +148,11 @@ class BlueprintModelCommand extends Generator
         if (count($relationships) > 0) {
             foreach ($relationships as $relation) {
                 $args = [
-                    $relation->class,
-                    isset($relation->foreignKey) ? $relation->foreignKey : '',
-                    isset($relation->localKey) ? $relation->localKey : '',
+                    $relation['class'],
+                    isset($relation['foreignKey']) ? $relation['foreignKey'] : '',
+                    isset($relation['localKey']) ? $relation['localKey'] : '',
                 ];
-                $relationshipsCode .= $this->createRelationshipFunction($relation->name, $relation->type, $args);
+                $relationshipsCode .= $this->createRelationshipFunction($relation['name'], $relation['type'], $args);
             }
             // do relationship stuff here
             $stub = str_replace('{{relationships}}', $relationshipsCode."\n", $stub);

@@ -11,11 +11,12 @@ Blueprint is a powerful CRUD generator to speed up the development of your larav
 ## Installation
 
 Blueprint Package requires Laravel 5.5 or higher.
+
 > **INFO:** If you are using an older version of Laravel this package may not function correctly.
 
 The supported way of installing Blueprint package is via Composer.
 
-``` bash
+```bash
 composer require phpjuice/blueprint --dev
 ```
 
@@ -83,6 +84,7 @@ After running this command a crud blueprint file will be generated under your da
 And here is a basic strucure for a blueprint json file,following laravel's naming conventions the crud will generate resource names from the `CRUD_NAME` arguement passed to `php artisan blueprint:make` command.
 
 **Example:**
+
 ```json
 {
   "crud": {
@@ -138,7 +140,6 @@ php artisan blueprint:generate Post
 
 > **Note:** note that we are using the crud name not the curd file name, this command will try to look for a crud blueprint under your `database/blueprints` folder with the provided name, if none is found it will ask you to create a new crud under that name.
 
-
 After running this command a the following files will be generated :
 
 - Controller
@@ -163,85 +164,85 @@ php artisan migrate
 
 ```json
 {
-    "crud": {
-        "name": "Post",
-        "namespace": "Content",
-        "isApi": true
-    },
-    "controller": {
-        "name": "PostsController",
-        "namespace": "Content",
-        "pagination": 10,
-        "validations": [
-            {
-                "field": "title",
-                "rules": "required|min:5|unique:posts"
-            },
-            {
-                "field": "content",
-                "rules": "required|min:5"
-            }
-        ]
-    },
-    "model": {
-        "name": "Post",
-        "namespace": "Content",
-        "fillable": "title,content",
-        "hidden": "user_id",
-        "softDeletes": true,
-        "relationships": [
-            {
-                "name": "user",
-                "type": "belongsTo",
-                "class": "App\\User"
-            }
-        ]
-    },
-    "table": {
-        "name": "posts",
-        "schema": {
-            "fields": [
-                {
-                    "name": "title",
-                    "type": "string"
-                },
-                {
-                    "name": "content",
-                    "type": "text"
-                }
-            ],
-            "keys": {
-                "primary": "id",
-                "foreign": [
-                    {
-                        "column": "user_id",
-                        "references": "id",
-                        "on": "users",
-                        "onDelete": "cascade",
-                        "onUpdate": "cascade"
-                    }
-                ],
-                "indexes": [
-                    {
-                        "field": "title",
-                        "type": "unique"
-                    },{
-                        "field": "title",
-                        "type": "index"
-                    }
-                ]
-            },
-            "softDeletes": true
+  "crud": {
+    "name": "Post",
+    "namespace": "Content",
+    "isApi": true
+  },
+  "controller": {
+    "name": "PostsController",
+    "namespace": "Content",
+    "pagination": 10,
+    "validations": [
+      {
+        "field": "title",
+        "rules": "required|min:5|unique:posts"
+      },
+      {
+        "field": "content",
+        "rules": "required|min:5"
+      }
+    ]
+  },
+  "model": {
+    "name": "Post",
+    "namespace": "Content",
+    "fillable": "title,content",
+    "hidden": "user_id",
+    "softDeletes": true,
+    "relationships": [
+      {
+        "name": "user",
+        "type": "belongsTo",
+        "class": "App\\User"
+      }
+    ]
+  },
+  "table": {
+    "name": "posts",
+    "schema": {
+      "fields": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "content",
+          "type": "text"
         }
-    },
-    "route": {
-        "name": "posts",
-        "namespace": "Posts",
-        "url": "posts",
-        "middlewares": []
+      ],
+      "keys": {
+        "primary": "id",
+        "foreign": [
+          {
+            "column": "user_id",
+            "references": "id",
+            "on": "users",
+            "onDelete": "cascade",
+            "onUpdate": "cascade"
+          }
+        ],
+        "indexes": [
+          {
+            "field": "title",
+            "type": "unique"
+          },
+          {
+            "field": "title",
+            "type": "index"
+          }
+        ]
+      },
+      "softDeletes": true
     }
+  },
+  "route": {
+    "name": "posts",
+    "namespace": "Posts",
+    "url": "posts",
+    "middlewares": []
+  }
 }
-
 ```
 
 ## Change log
@@ -258,7 +259,7 @@ If you discover any security related issues, please email author instead of usin
 
 ## Credits
 
-- [appzcoder] (https://github.com/appzcoder/crud-generator)
+- [AppzCoder](https://github.com/appzcoder/crud-generator)
 
 ## License
 

@@ -25,19 +25,13 @@ class DummyClass extends FormRequest
   {
     switch($this->method())
     {
-      case 'GET':
-      case 'DELETE': return [];
       case 'POST':
-      {
         return [{{validations}}
         ];
-      }
       case 'PATCH':
       case 'PUT':
-      {
         return [{{validations}}
         ];
-      }
       default:break;
     }
 

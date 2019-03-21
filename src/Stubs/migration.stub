@@ -15,6 +15,7 @@ class DummyClass extends Migration
     {
         Schema::create('{{tableName}}', function (Blueprint $table) {
             $table->increments('{{primaryKey}}');
+            $table->uuid('uuid')->unique();
             {{schemaFields}}
             $table->timestamps();
         });

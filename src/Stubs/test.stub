@@ -6,86 +6,97 @@ use Tests\TestCase;
 
 class DummyClass extends TestCase
 {
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
-  public function testIndex()
-  {
-    $response = $this->actingAs($this->user)
-                     ->json('get', '{{route.url}}');
-    $response->assertStatus(200)->assertJson([]);
-  }
+    protected $payload;
+    protected $endpoint;
 
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
-  public function testCreate()
-  {
-    $payload = [{{payload.save}}];
-    $response = $this->actingAs($this->user)
-                     ->json('post', '{{route.url}}',$payload);
-    $response->assertStatus(201)->assertJson([
-      'data' => $payload
-    ]);
-  }
+    public function setUp()
+    {
+        parent::setUp();
+        $this->endpoint = "{{route.url}}";
+        $this->payload = [{{payload.save}}
+        ];
+    }
 
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
-  public function testShow()
-  {
-    $payload = [{{payload.save}}];
-    $response = $this->actingAs($this->user)
-    ->json('post', '{{route.url}}',$payload);
-    $id = $response->json()['data']['{{primaryKey}}'];
-    $response = $this->actingAs($this->user)
-                     ->json('get', '{{route.url}}/'.$id);
-    $response->assertStatus(200)->assertJson([
-      'data' => $payload
-    ]);
-  }
+    /**
+    * A basic test example.
+    *
+    * @return void
+    */
+    public function testIndex()
+    {
+        $this->actingAs($this->user)
+                ->json('get', $this->endpoint)
+                ->assertStatus(200)
+                ->assertJson([]);
+    }
 
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
-  public function testUpdate()
-  {
-    $payload = [{{payload.save}}];
-    $response = $this->actingAs($this->user)
-                     ->json('post', '{{route.url}}',$payload);
-    $id = $response->json()['data']['{{primaryKey}}'];
-    $payload = [{{payload.update}}];
-    $response = $this->actingAs($this->user)
-                     ->json('put', '{{route.url}}/'.$id,$payload);
+    /**
+    * A basic test example.
+    *
+    * @return void
+    */
+    public function testCreate()
+    {
+        $this->actingAs($this->user)
+                ->json('post', $this->endpoint, $this->payload)
+                ->assertStatus(201)
+                ->assertJson([
+                    'data' => $this->payload
+                ]);
+    }
 
-    $response->assertStatus(200)->assertJson([
-      'data' => $payload
-    ]);
-  }
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+        $response = $this->actingAs($this->user)
+                         ->json('post', $this->endpoint, $this->payload);
+        $id = $response->json()['data']['{{primaryKey}}'];
+        $this->actingAs($this->user)
+            ->json('get', $this->endpoint .'/'.$id)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => $this->payload
+            ]);
+    }
 
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
-  public function testDelete()
-  {
-    $payload = [{{payload.save}}];
-    $response = $this->actingAs($this->user)
-    ->json('post', '{{route.url}}',$payload);
-    $id = $response->json()['data']['{{primaryKey}}'];
-    $response = $this->actingAs($this->user)
-                     ->json('delete', '{{route.url}}/'.$id);
-    $response->assertStatus(200)->assertJson([
-      'data' => $payload
-    ]);
-  }
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $response = $this->actingAs($this->user)
+                         ->json('post', $this->endpoint, $this->payload);
+        $id = $response->json()['data']['{{primaryKey}}'];
+        $payload = [{{payload.update}}];
+        $this->actingAs($this->user)
+            ->json('put', $this->endpoint .'/'.$id,$payload)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => $payload
+            ]);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testDelete()
+    {
+        $response = $this->actingAs($this->user)
+                         ->json('post', $this->endpoint, $this->payload);
+        $id = $response->json()['data']['{{primaryKey}}'];
+        $this->actingAs($this->user)
+            ->json('delete', $this->endpoint .'/'.$id)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => $this->payload
+            ]);
+    }
 }

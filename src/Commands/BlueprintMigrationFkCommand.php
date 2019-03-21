@@ -79,19 +79,19 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
     {
         // get stub file
         $stub = $this->files->get($this->getStub());
+        // get table name
         $tableName = $this->argument('name');
         // genreate table name
-        $className = $this->generateClassName($name);
+        $className = $this->generateClassName($tableName);
+
         // get schema
         $this->keys = $this->option('keys');
-        // replace the tableName in the stub
-        $this->replaceTableName($stub, $tableName);
-        // replace the key names in the stub
-        $this->replaceForeignKeyNames($stub);
-        // replace the actual foreignKeys in the stub
-        $this->replaceForeignKeys($stub);
 
-        return $this->replaceClass($stub, $className);
+        return $this
+            ->replaceTableName($stub, $tableName)
+            ->replaceForeignKeyNames($stub)
+            ->replaceForeignKeys($stub)
+            ->replaceClass($stub, $className);
     }
 
     /**
@@ -166,7 +166,8 @@ class BlueprintMigrationFkCommand extends GeneratorCommand
             ->onDelete('%5\$s');";
         $str = '';
         foreach ($this->keys as $key) {
-            $str .= sprintf($format,
+            $str .= sprintf(
+                $format,
                 $key['column'],
                 $key['references'],
                 $key['on'],

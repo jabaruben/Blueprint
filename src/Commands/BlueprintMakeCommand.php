@@ -13,7 +13,8 @@ class BlueprintMakeCommand extends Command
      */
     protected $signature = 'blueprint:make
                             {name : name of the crud Ex: Post .}
-                            {--api}';
+                            {--api}
+                            {--P|precise}';
 
     /**
      * The console command description.
